@@ -1,4 +1,0 @@
-bool use_line_planner
-bool precise_goal
-bool append_new_maneuver
-float32 range_waypoint_replan
