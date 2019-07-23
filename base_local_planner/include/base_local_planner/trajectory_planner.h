@@ -113,6 +113,7 @@ namespace base_local_planner {
           double sim_time = 1.0, double sim_granularity = 0.025, 
           int vx_samples = 20, int vtheta_samples = 20,
           double pdist_scale = 0.6, double gdist_scale = 0.8, double occdist_scale = 0.2,
+          double hdiff_scale = 0.8,
           double heading_lookahead = 0.325, double oscillation_reset_dist = 0.05, 
           double escape_reset_dist = 0.10, double escape_reset_theta = M_PI_2,
           bool holonomic_robot = true,
@@ -288,10 +289,11 @@ namespace base_local_planner {
       double angular_sim_granularity_; ///< @brief The distance between angular simulation points
 
       int vx_samples_; ///< @brief The number of samples we'll take in the x dimenstion of the control space
+      int vy_samples_; ///< @brief The number of samples we'll take in the y dimenstion of the control space
       int vtheta_samples_; ///< @brief The number of samples we'll take in the theta dimension of the control space
 
       double path_distance_max_; ///< @brief Maximum allowable distance from global path
-      double pdist_scale_, gdist_scale_, occdist_scale_; ///< @brief Scaling factors for the controller's cost function
+      double pdist_scale_, gdist_scale_, occdist_scale_, hdiff_scale_; ///< @brief Scaling factors for the controller's cost function
       double acc_lim_x_, acc_lim_y_, acc_lim_theta_; ///< @brief The acceleration limits of the robot
 
       double prev_x_, prev_y_; ///< @brief Used to calculate the distance the robot has traveled before reseting oscillation booleans
@@ -304,7 +306,7 @@ namespace base_local_planner {
       double escape_reset_dist_, escape_reset_theta_; ///< @brief The distance the robot must travel before it can leave escape mode
       bool holonomic_robot_; ///< @brief Is the robot holonomic or not? 
       
-      double max_vel_x_, min_vel_x_, max_vel_th_, min_vel_th_, min_in_place_vel_th_; ///< @brief Velocity limits for the controller
+      double max_vel_x_, min_vel_x_, max_vel_y_, min_vel_y_, max_vel_th_, min_vel_th_, min_in_place_vel_th_; ///< @brief Velocity limits for the controller
 
       double backup_vel_; ///< @brief The velocity to use while backing up
 
@@ -317,6 +319,12 @@ namespace base_local_planner {
 
       double stop_time_buffer_; ///< @brief How long before hitting something we're going to enforce that the robot stop
       double sim_period_; ///< @brief The number of seconds to use to compute max/min vels for dwa
+
+      double goal_dist_, goal_cost_;
+      double path_dist_, path_cost_;
+      double head_diff_, head_cost_;
+      double occ_dist_, occ_cost_;
+      double angle1_, angle2_;
 
       double inscribed_radius_, circumscribed_radius_;
 
@@ -383,7 +391,7 @@ namespace base_local_planner {
 
       double lineCost(int x0, int x1, int y0, int y1);
       double pointCost(int x, int y);
-      double headingDiff(int cell_x, int cell_y, double x, double y, double heading);
+      double headingDiff(int cell_x, int cell_y, double x, double y, double heading, double &goal_dist_traj, double &path_dist_traj);
       double AngleDifference( double angle1, double angle2 );
   };
 };

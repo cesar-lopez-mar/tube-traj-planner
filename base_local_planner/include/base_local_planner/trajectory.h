@@ -62,6 +62,9 @@ namespace base_local_planner {
       double cost_; ///< @brief The cost/score of the trajectory
       double path_dist_traj_; ///< @brief The path dist trajectory
 
+      double head_cost_traj_; ///< @brief The goal dist trajectory
+      double goal_cost_traj_; ///< @brief The goal dist trajectory
+
       double time_delta_; ///< @brief The time gap between points
 
       /**

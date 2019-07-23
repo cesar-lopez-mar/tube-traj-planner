@@ -98,7 +98,7 @@ namespace base_local_planner {
       trans_stopped_velocity_ = 1e-2;
       double sim_time, sim_granularity, angular_sim_granularity;
       int vx_samples, vtheta_samples;
-      double path_distance_max, pdist_scale, gdist_scale, occdist_scale, heading_lookahead, oscillation_reset_dist, escape_reset_dist, escape_reset_theta;
+      double path_distance_max, pdist_scale, gdist_scale, hdiff_scale, occdist_scale, heading_lookahead, oscillation_reset_dist, escape_reset_dist, escape_reset_theta;
       bool holonomic_robot, dwa, simple_attractor, heading_scoring;
       double heading_scoring_timestep;
       double max_vel_x, min_vel_x;
@@ -166,6 +166,7 @@ namespace base_local_planner {
       private_nh.param("path_distance_max", path_distance_max, 0.0);
       private_nh.param("path_distance_bias", pdist_scale, 0.6);
       private_nh.param("goal_distance_bias", gdist_scale, 0.8);
+      private_nh.param("head_difference_bias", hdiff_scale, 0.8);
       private_nh.param("occdist_scale", occdist_scale, 0.01);
 
       bool meter_scoring;
@@ -232,7 +233,7 @@ namespace base_local_planner {
 
       tc_ = new TrajectoryPlanner(*world_model_, *costmap_, footprint_spec_,
           acc_lim_x_, acc_lim_y_, acc_lim_theta_, sim_time, sim_granularity, vx_samples, vtheta_samples, pdist_scale,
-          gdist_scale, occdist_scale, heading_lookahead, oscillation_reset_dist, escape_reset_dist, escape_reset_theta, holonomic_robot,
+          gdist_scale, occdist_scale, hdiff_scale, heading_lookahead, oscillation_reset_dist, escape_reset_dist, escape_reset_theta, holonomic_robot,
           max_vel_x, min_vel_x, max_vel_th_, min_vel_th_, min_in_place_vel_th_, backup_vel,
           dwa, heading_scoring, heading_scoring_timestep, meter_scoring, simple_attractor, y_vels, stop_time_buffer, sim_period_, angular_sim_granularity, path_distance_max);
 
